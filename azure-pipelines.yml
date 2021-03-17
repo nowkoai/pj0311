@@ -20,7 +20,7 @@ variables:
   value: $(ACR_SERVER)
 
 stages:
-- script: |
+- script:
     docker build -t $(acrServer)/$(imageName) .
     docker login -u $(acrId) -p $(acrPassword) $(acrUrl)
     docker push $(acrServer)/$(imageName)
