@@ -1,28 +1,28 @@
 # Docker
-# Build a Docker image
+# Build a Docker image 
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- main
+  - master
 
 resources:
-- repo: self
+  - repo: self
 
 variables:
-- group: yamaval
-- name: imageName
-  value: myimage:$(Build.buildId)
-- name: acrId
-  value: $(ACR_USERNAME)
-- name: acrPassword
-  value: $(ACR_PASSWORD)
-- name: acrServer
-  value: $(ACR_SERVER)
+  - group: ACR_Valiables
+  - name: imageName
+    value: myimage:$(Build.buildId)
+  - name: acrId
+    value: $(ACR_USERNAME)
+  - name: acrPassword
+    value: $(ACR_PASSWORD)
+  - name: acrServer
+    value: $(ACR_SERVER)
 
-stages:
-- script:
-    docker build -t $(acrServer)/$(imageName) .
-    docker login -u $(acrId) -p $(acrPassword) $(acrUrl)
-    docker push $(acrServer)/$(imageName)
+steps:
+  - script: |
+      docker build -t $(acrServer)/$(imageName) .
+      docker login -u $(acrId) -p $(acrPassword) $(acrUrl)
+      docker push $(acrServer)/$(imageName)
 
-  displayName: Build Docker image
+    displayName: Build Docker image
